@@ -11,6 +11,24 @@
             <groupId>org.apache.zeppelin</groupId>
             <artifactId>zeppelin-server</artifactId>
             <version>0.10.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.annotation</groupId>
+                    <artifactId>javax.annotation-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.sun.activation</groupId>
+                    <artifactId>jakarta.activation</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>jakarta.activation-api</groupId>
+                    <artifactId>jakarta.activation-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>jakarta.xml.bind</groupId>
+                    <artifactId>jakarta.xml.bind-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.buji</groupId>
