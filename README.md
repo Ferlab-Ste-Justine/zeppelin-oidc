@@ -11,3 +11,39 @@ mvn dependency:copy-dependencies
 This will copy into `target/dependecy` all jars required by Zeppelin AND by OIDC
 
 Then you can replace all libraries in `${ZEPPELIN_HOME}/lib`
+
+## shiro.ini custom setup
+
+### Using bio.ferlab.pac4j.UsernameAuthorizer :
+
+In order to restrict the Zeppelin access only to certain Keycloak usernames, use this authorizer on your *shiro.ini* file as follows:
+
+```
+usernameAuthorizer = bio.ferlab.pac4j.UsernameAuthorizer
+usernameAuthorizer.elements = username1,username2,username3
+
+config = org.pac4j.core.config.Config
+config.authorizers = username:$usernameAuthorizer
+
+oidcSecurityFilter = io.buji.pac4j.filter.SecurityFilter
+oidcSecurityFilter.config = $config
+oidcSecurityFilter.clients = oidcClient
+oidcSecurityFilter.authorizers = +username
+```
+
+Therefore only usernames mentioned on the *elements* property - *username1, username2 and username3* - will be able to access the system.
+
+### Using bio.ferlab.pac4j.CustomCallbackLogic :
+
+In order to provide Keycloak a callback URL which will override the Zeppelin predefinition, after a successful login, modify your *shiro.ini* file as follows:
+
+```
+customCallbackLogic = bio.ferlab.pac4j.ForceDefaultURLCallbackLogic
+
+callbackFilter = io.buji.pac4j.filter.CallbackFilter
+callbackFilter.defaultUrl = https://zeppelin-callback-url
+callbackFilter.config = $config
+callbackFilter.callbackLogic = $customCallbackLogic
+```
+
+In this case, the user will be redirected to *https://zeppelin-callback-url* after a successful Keycloak login.
