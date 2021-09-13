@@ -8,6 +8,7 @@ import org.pac4j.core.context.session.SessionStore;
 import org.pac4j.core.profile.UserProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.pac4j.core.authorization.authorizer.AbstractRequireAnyAuthorizer;
 
 public final class UsernameAuthorizer extends AbstractRequireAnyAuthorizer<String> {
 
