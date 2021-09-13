@@ -31,9 +31,9 @@ oidcSecurityFilter.clients = oidcClient
 oidcSecurityFilter.authorizers = +username
 ```
 
-Therefore only usernames mentioned on the *elements* property - *username1, username2 and username3* - will be able to access the system.
+Only usernames mentioned on the *elements* property - *username1, username2 and username3*, for instance - will be able to access the system.
 
-### Using bio.ferlab.pac4j.CustomCallbackLogic :
+### Using bio.ferlab.pac4j.ForceDefaultURLCallbackLogic :
 
 In order to provide Keycloak a callback URL which will override the Zeppelin predefinition, after a successful login, modify your *shiro.ini* file as follows:
 
