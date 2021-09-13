@@ -8,7 +8,7 @@ import org.pac4j.core.util.HttpActionHelper;
 import org.pac4j.core.util.Pac4jConstants;
 import org.pac4j.core.exception.http.FoundAction;
 
-public class CustomCallbackLogic extends DefaultCallbackLogic {
+public class ForceDefaultURLCallbackLogic extends DefaultCallbackLogic {
 
     @Override
     public HttpAction redirectToOriginallyRequestedUrl(final WebContext context, final SessionStore sessionStore,
