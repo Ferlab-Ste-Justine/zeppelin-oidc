@@ -2,9 +2,11 @@ name: Maven CI
 
 on:
   push:
-    branches: [ * ]
+    branches: 
+      - '*'
   pull_request:
-    branches: [ * ]
+    branches: 
+      - '*'
 
   workflow_dispatch:
 
