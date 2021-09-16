@@ -1,0 +1,55 @@
+[main]
+sessionManager = org.apache.shiro.web.session.mgt.DefaultWebSessionManager
+securityManager.sessionManager = $sessionManager
+securityManager.sessionManager.globalSessionTimeout = 86400000
+
+oidcConfig = org.pac4j.oidc.config.OidcConfiguration
+oidcConfig.withState = false
+oidcConfig.discoveryURI = http://localhost:8081/auth/realms/zeppelin-realm/.well-known/openid-configuration
+oidcConfig.clientId = zeppelin1
+oidcConfig.secret = xxx-xxx-xxx-xxx
+oidcConfig.clientAuthenticationMethodAsString = client_secret_basic
+oidcClient = org.pac4j.oidc.client.OidcClient
+oidcClient.configuration = $oidcConfig
+#oidcClient.callbackUrl = http://localhost:8080/api/callback
+
+clients = org.pac4j.core.client.Clients
+clients.callbackUrl = http://localhost:8080/api/callback
+clients.clients = $oidcClient
+
+#requireRoleAdmin = org.pac4j.core.authorization.authorizer.RequireAnyRoleAuthorizer
+
+usernameAuthorizer = bio.ferlab.pac4j.UsernameAuthorizer
+usernameAuthorizer.elements = zeppelin,zeppelin1
+
+config = org.pac4j.core.config.Config
+config.clients = $clients
+config.authorizers = username:$usernameAuthorizer
+
+pac4jRealm = io.buji.pac4j.realm.Pac4jRealm
+pac4jRealm.principalNameAttribute = preferred_username
+pac4jSubjectFactory = io.buji.pac4j.subject.Pac4jSubjectFactory
+securityManager.subjectFactory = $pac4jSubjectFactory
+
+oidcSecurityFilter = io.buji.pac4j.filter.SecurityFilter
+oidcSecurityFilter.config = $config
+oidcSecurityFilter.clients = oidcClient
+oidcSecurityFilter.authorizers = +username
+
+customCallbackLogic = bio.ferlab.pac4j.ForceDefaultURLCallbackLogic
+
+callbackFilter = io.buji.pac4j.filter.CallbackFilter
+callbackFilter.defaultUrl = http://localhost:8080
+callbackFilter.config = $config
+callbackFilter.callbackLogic = $customCallbackLogic
+
+ajaxRequestResolver = org.pac4j.core.http.ajax.DefaultAjaxRequestResolver
+ajaxRequestResolver.addRedirectionUrlAsHeader = true
+oidcClient.ajaxRequestResolver = $ajaxRequestResolver
+
+[urls]
+/api/version = anon
+/api/callback = callbackFilter
+/api/notebook/**/permissions = oidcSecurityFilter
+/api/notebook/** = anon
+/** = oidcSecurityFilter
