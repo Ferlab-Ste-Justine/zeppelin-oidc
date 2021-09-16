@@ -2,13 +2,18 @@ name: Maven CI
 
 on:
   push:
-    branches: 
-      - '*'
+    branches: [ main ]
   pull_request:
-    branches: 
-      - '*'
+    branches: [ main ]
 
   workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning'
+      tags:
+        description: 'Test scenario tags'  
 
 jobs:
   build_and_test:
