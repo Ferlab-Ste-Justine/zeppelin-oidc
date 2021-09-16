@@ -1,6 +1,5 @@
 ![](https://github.com/Ferlab-Ste-Justine/zeppelin-oidc/actions/workflows/main.yml/badge.svg)
 
-
 Zeppelin OIDC
 ===========
 
