@@ -11,7 +11,6 @@ oidcConfig.secret = xxx-xxx-xxx-xxx
 oidcConfig.clientAuthenticationMethodAsString = client_secret_basic
 oidcClient = org.pac4j.oidc.client.OidcClient
 oidcClient.configuration = $oidcConfig
-#oidcClient.callbackUrl = http://localhost:8080/api/callback
 
 clients = org.pac4j.core.client.Clients
 clients.callbackUrl = http://localhost:8080/api/callback
