@@ -5,6 +5,15 @@ on:
 
 name: Create Release
 
+workflow_dispatch:
+  inputs:
+    logLevel:
+      description: 'Log level'
+      required: true
+      default: 'warning'
+    tags:
+      description: 'Create release'
+
 jobs:
   build:
     name: Create Release
