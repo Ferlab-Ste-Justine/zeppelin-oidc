@@ -37,15 +37,29 @@
                     </dependency>
                 </dependencies>
             </plugin>
+<!--            <plugin>-->
+<!--                <artifactId>maven-deploy-plugin</artifactId>-->
+<!--                <version>3.0.0-M4</version>-->
+<!--            </plugin>-->
+<!--            <plugin>-->
+<!--                <artifactId>maven-release-plugin</artifactId>-->
+<!--                <version>3.0.0-M4</version>-->
+<!--                <configuration>-->
+<!--                    <tagNameFormat>v@{project.version}</tagNameFormat>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
         </plugins>
     </build>
     <distributionManagement>
         <repository>
             <id>github</id>
             <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/Ferlab-Ste-Justine/zeppelin-oidc</url>
+            <url>https://maven.pkg.github.com/${git.repository}</url>
         </repository>
     </distributionManagement>
+    <scm>
+        <developerConnection>scm:git:https://github.com/${git.repository}.git</developerConnection>
+    </scm>
     <dependencies>
         <dependency>
             <groupId>org.apache.zeppelin</groupId>
@@ -112,6 +126,7 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <git.repository>Ferlab-Ste-Justine/zeppelin-oidc</git.repository>
     </properties>
 
 </project>
