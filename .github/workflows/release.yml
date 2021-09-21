@@ -11,6 +11,7 @@ on:
         required: true
         default: 'warning'
       tags:
+        required: false
         description: 'Create release'
 
 jobs:
