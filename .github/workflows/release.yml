@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ build ]
     steps:
-      - uses: actions/checkout@release
+      - uses: actions/checkout@v2
       - uses: Embraser01/update-git-branch-action@v1.0.0
         if: github.ref == 'refs/heads/release'
         with:
