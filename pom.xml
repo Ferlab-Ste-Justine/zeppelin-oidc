@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>bio.ferlab</groupId>
     <artifactId>zeppelin-oidc</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.3</version>
     <build>
         <plugins>
             <plugin>
@@ -57,7 +57,7 @@
     </distributionManagement>
     <scm>
         <developerConnection>scm:git:https://github.com/${git.repository}.git</developerConnection>
-      <tag>v1.8</tag>
+      <tag>v0.0.3</tag>
   </scm>
     <dependencies>
         <dependency>
