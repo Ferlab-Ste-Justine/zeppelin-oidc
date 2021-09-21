@@ -1,5 +1,5 @@
 ![](https://github.com/Ferlab-Ste-Justine/zeppelin-oidc/actions/workflows/build_and_test.yml/badge.svg)
-![](https://github.com/Ferlab-Ste-Justine/zeppelin-oidc/actions/workflows/release.yml/badge.svg?event=release&branch=release)
+![](https://github.com/Ferlab-Ste-Justine/zeppelin-oidc/actions/workflows/release.yml/badge.svg?branch=release)
 
 Zeppelin OIDC
 ===========

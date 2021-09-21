@@ -34,3 +34,16 @@ jobs:
         run: ./mvnw -B release:prepare release:perform
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  updateBranch:
+    name: Update main branch
+    runs-on: ubuntu-latest
+    needs: [ build ]
+    steps:
+      - uses: actions/checkout@release
+      - uses: Embraser01/update-git-branch-action@v1.0.0
+        if: github.ref == 'refs/heads/release'
+        with:
+          branch: main
+          force: 1
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
