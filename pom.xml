@@ -52,8 +52,7 @@
         <repository>
             <id>github</id>
             <name>GitHub Packages</name>
-<!--            <url>https://maven.pkg.github.com/${git.repository}</url>-->
-            <url>https://github.com/${git.repository}/packages/</url>
+            <url>https://maven.pkg.github.com/${git.repository}</url>
         </repository>
     </distributionManagement>
     <scm>
