@@ -18,22 +18,22 @@ clients.clients = $oidcClient
 
 #requireRoleAdmin = org.pac4j.core.authorization.authorizer.RequireAnyRoleAuthorizer
 
-usernameAuthorizer = bio.ferlab.pac4j.UsernameAuthorizer
-usernameAuthorizer.elements = zeppelin,zeppelin1
+useridAuthorizer = bio.ferlab.pac4j.UseridAuthorizer
+useridAuthorizer.elements = zeppelin-id,zeppelin1-id
 
 config = org.pac4j.core.config.Config
 config.clients = $clients
-config.authorizers = username:$usernameAuthorizer
+config.authorizers = id:$useridAuthorizer
 
 pac4jRealm = io.buji.pac4j.realm.Pac4jRealm
-pac4jRealm.principalNameAttribute = preferred_username
+pac4jRealm.principalNameAttribute = name
 pac4jSubjectFactory = io.buji.pac4j.subject.Pac4jSubjectFactory
 securityManager.subjectFactory = $pac4jSubjectFactory
 
 oidcSecurityFilter = io.buji.pac4j.filter.SecurityFilter
 oidcSecurityFilter.config = $config
 oidcSecurityFilter.clients = oidcClient
-oidcSecurityFilter.authorizers = +username
+oidcSecurityFilter.authorizers = +id
 
 customCallbackLogic = bio.ferlab.pac4j.ForceDefaultURLCallbackLogic
 

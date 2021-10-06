@@ -1,5 +1,6 @@
 package bio.ferlab;
 
+import bio.ferlab.pac4j.UseridAuthorizer;
 import bio.ferlab.pac4j.UsernameAuthorizer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -27,10 +28,17 @@ public final class UsernameAuthorizerTest {
 
     private CommonProfile profile;
 
-    private static Stream<Arguments> provideArguments() {
+    private static Stream<Arguments> provideNameArguments() {
         return Stream.of(
                 Arguments.of("zeppelin", "zeppelin", true),
                 Arguments.of("unauthorized", "zeppelin", false)
+        );
+    }
+
+    private static Stream<Arguments> provideIdArguments() {
+        return Stream.of(
+                Arguments.of("123-456", "123-456", true),
+                Arguments.of("unauthorized", "111", false)
         );
     }
 
@@ -41,11 +49,18 @@ public final class UsernameAuthorizerTest {
     }
 
     @ParameterizedTest
-    @MethodSource("provideArguments")
-    void isAuthorizedTest(final String USER, final String ELEMENT, final boolean EXPECTED_AUTH) {
+    @MethodSource("provideNameArguments")
+    void isNameAuthorizedTest(final String USER, final String ELEMENT, final boolean EXPECTED_AUTH) {
         profile.addAttribute(Pac4jConstants.USERNAME, USER);
         final UsernameAuthorizer usernameAuthorizer = new UsernameAuthorizer(ELEMENT);
         assertEquals(EXPECTED_AUTH, usernameAuthorizer.isAuthorized(context, sessionStore, Collections.singletonList(profile)));
     }
 
+    @ParameterizedTest
+    @MethodSource("provideIdArguments")
+    void isIdAuthorizedTest(final String ID, final String ELEMENT, final boolean EXPECTED_AUTH) {
+        profile.setId(ID);
+        final UseridAuthorizer useridAuthorizer = new UseridAuthorizer(ELEMENT);
+        assertEquals(EXPECTED_AUTH, useridAuthorizer.isAuthorized(context, sessionStore, Collections.singletonList(profile)));
+    }
 }
