@@ -50,3 +50,9 @@ callbackFilter.callbackLogic = $customCallbackLogic
 ```
 
 In this case, the user will be redirected to *https://zeppelin-callback-url* after a successful Keycloak login.
+
+## To Release
+```
+git tag v?.?.? 
+git push origin v?.?.?
+```
