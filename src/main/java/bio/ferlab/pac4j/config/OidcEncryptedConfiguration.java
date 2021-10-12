@@ -36,6 +36,7 @@ public class OidcEncryptedConfiguration extends OidcConfiguration {
 
     @Override
     public String getSecret() {
+        log.debug("secretEncrypted: {}", this.isSecretEncrypted());
         if(this.isSecretEncrypted()) {
             return kmsDecrypt(super.getSecret());
         } else {

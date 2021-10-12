@@ -3,7 +3,8 @@ sessionManager = org.apache.shiro.web.session.mgt.DefaultWebSessionManager
 securityManager.sessionManager = $sessionManager
 securityManager.sessionManager.globalSessionTimeout = 86400000
 
-oidcConfig = org.pac4j.oidc.config.OidcConfiguration
+oidcConfig = bio.ferlab.pac4j.config.OidcEncryptedConfiguration
+#oidcConfig = org.pac4j.oidc.config.OidcConfiguration
 oidcConfig.withState = false
 oidcConfig.discoveryURI = http://localhost:8081/auth/realms/zeppelin-realm/.well-known/openid-configuration
 oidcConfig.clientId = zeppelin1
