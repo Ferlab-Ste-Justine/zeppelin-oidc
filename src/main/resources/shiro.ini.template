@@ -14,6 +14,7 @@ oidcConfig.awsRegion = us-east-1
 oidcConfig.clientAuthenticationMethodAsString = client_secret_basic
 oidcClient = org.pac4j.oidc.client.OidcClient
 oidcClient.configuration = $oidcConfig
+oidcConfig.disablePkce = true
 
 clients = org.pac4j.core.client.Clients
 clients.callbackUrl = http://localhost:8080/api/callback
