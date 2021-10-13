@@ -8,18 +8,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import software.amazon.awssdk.services.kms.KmsClient;
-import software.amazon.awssdk.services.kms.model.DecryptRequest;
-import software.amazon.awssdk.services.kms.model.DecryptResponse;
-
-import java.util.function.Consumer;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 public class OidcEncryptedConfigurationTest {
     private static final String SECRET = "SECRET";
+    private static final String DECRYPTED = "DECRYPTED";
+    private static final String KMS_KEY_ID = "kms-key-id";
+    private static final String REGION = "us-east-1";
 
     @Mock
     AwsTools awsTools;
@@ -29,20 +26,26 @@ public class OidcEncryptedConfigurationTest {
     @BeforeEach
     void setup() {
         oidcEncryptedConfiguration = new OidcEncryptedConfiguration();
-        oidcEncryptedConfiguration.setAwsRegion("us-east-1");
+        oidcEncryptedConfiguration.setAwsRegion(REGION);
         oidcEncryptedConfiguration.setAwsTools(awsTools);
     }
 
     @Test
-    void testGetSecret() {
+    void whenGetSecretIsNotEncryptedThenDontDecrypt() {
         oidcEncryptedConfiguration.setSecretEncrypted(false);
         oidcEncryptedConfiguration.setSecret(SECRET);
-        Mockito.when(awsTools.kmsDecrypt(any(), any(), any())).thenReturn(SECRET);
 
         assertEquals(SECRET, oidcEncryptedConfiguration.getSecret());
-
+    }
+    @Test
+    void whenGetSecretIsEncryptedThenDecrypt() {
         oidcEncryptedConfiguration.setSecretEncrypted(true);
-        Mockito.when(awsTools.kmsDecrypt(any(), any(), any())).thenReturn(SECRET);
-        assertEquals(SECRET, oidcEncryptedConfiguration.getSecret());
+        oidcEncryptedConfiguration.setSecret(SECRET);
+        oidcEncryptedConfiguration.setKmsKeyId(KMS_KEY_ID);
+        Mockito.when(awsTools.kmsDecrypt(SECRET, REGION, KMS_KEY_ID)).thenReturn(DECRYPTED);
+
+        assertEquals(DECRYPTED, oidcEncryptedConfiguration.getSecret());
+
+        Mockito.verify(awsTools, Mockito.times(1)).kmsDecrypt(SECRET, REGION, KMS_KEY_ID);
     }
 }
