@@ -3,14 +3,19 @@ sessionManager = org.apache.shiro.web.session.mgt.DefaultWebSessionManager
 securityManager.sessionManager = $sessionManager
 securityManager.sessionManager.globalSessionTimeout = 86400000
 
-oidcConfig = org.pac4j.oidc.config.OidcConfiguration
+oidcConfig = bio.ferlab.pac4j.config.OidcEncryptedConfiguration
+#oidcConfig = org.pac4j.oidc.config.OidcConfiguration
 oidcConfig.withState = false
 oidcConfig.discoveryURI = http://localhost:8081/auth/realms/zeppelin-realm/.well-known/openid-configuration
 oidcConfig.clientId = zeppelin1
 oidcConfig.secret = xxx-xxx-xxx-xxx
+oidcConfig.secretEncrypted = false
+oidcConfig.kmsKeyId = xxxxxx
+oidcConfig.awsRegion = us-east-1
 oidcConfig.clientAuthenticationMethodAsString = client_secret_basic
 oidcClient = org.pac4j.oidc.client.OidcClient
 oidcClient.configuration = $oidcConfig
+oidcConfig.disablePkce = true
 
 clients = org.pac4j.core.client.Clients
 clients.callbackUrl = http://localhost:8080/api/callback
