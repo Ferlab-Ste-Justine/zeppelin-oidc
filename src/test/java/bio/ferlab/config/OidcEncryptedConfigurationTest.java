@@ -20,7 +20,6 @@ import static org.mockito.ArgumentMatchers.any;
 @ExtendWith(MockitoExtension.class)
 public class OidcEncryptedConfigurationTest {
     private static final String SECRET = "SECRET";
-    private static final String DECRYPTED = "DECRYPTED";
 
     @Mock
     AwsTools awsTools;
