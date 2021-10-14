@@ -1,51 +1,27 @@
 package bio.ferlab.pac4j.config;
 
+import com.amazonaws.services.kms.AWSKMS;
+import com.amazonaws.services.kms.AWSKMSClientBuilder;
+import com.amazonaws.services.kms.model.DecryptRequest;
+import com.amazonaws.services.kms.model.DecryptResult;
+import com.amazonaws.util.Base64;
 import lombok.extern.slf4j.Slf4j;
-import software.amazon.awssdk.core.SdkBytes;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.kms.KmsClient;
-import software.amazon.awssdk.services.kms.model.DecryptRequest;
-import software.amazon.awssdk.services.kms.model.DecryptResponse;
-import software.amazon.awssdk.services.kms.model.KmsException;
 
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
 
 @Slf4j
 public class AwsTools {
-    private static Map<String, KmsClient> kmsClientMap = new HashMap<>();
-
-    public KmsClient getKmsClient(String awsRegion) {
-        KmsClient kmsClient = kmsClientMap.get(awsRegion);
-        if(kmsClient == null) {
-            Region region = Region.of(awsRegion);
-            kmsClient = KmsClient.builder()
-                    .region(region)
-                    .build();
-            kmsClientMap.put(awsRegion, kmsClient);
-        }
-        return kmsClient;
-    }
 
     public String kmsDecrypt(String data, String awsRegion, String kmsKeyId) {
-        try {
-            KmsClient kmsClient = getKmsClient(awsRegion);
-            SdkBytes encryptedData = SdkBytes.fromByteArray(data.getBytes(StandardCharsets.UTF_8));
+        AWSKMS kmsClient = AWSKMSClientBuilder.standard().withRegion(awsRegion).build();
 
-            DecryptRequest decryptRequest = DecryptRequest.builder()
-                    .ciphertextBlob(encryptedData)
-                    .keyId(kmsKeyId)
-                    .build();
+        byte[] dataBytes = Base64.decode(data);
 
-            DecryptResponse decryptResponse = kmsClient.decrypt(decryptRequest);
-            SdkBytes plainText = decryptResponse.plaintext();
-            return new String(plainText.asByteArray(), StandardCharsets.UTF_8);
+        ByteBuffer cipherBuffer = ByteBuffer.wrap(dataBytes);
+        DecryptRequest req = new DecryptRequest().withCiphertextBlob(cipherBuffer).withKeyId(kmsKeyId);
+        DecryptResult resp = kmsClient.decrypt(req);
 
-        } catch (KmsException e) {
-            log.error(e.getMessage());
-            System.exit(1);
-        }
-        return null;
+        return new String(resp.getPlaintext().array(), StandardCharsets.UTF_8);
     }
 }
