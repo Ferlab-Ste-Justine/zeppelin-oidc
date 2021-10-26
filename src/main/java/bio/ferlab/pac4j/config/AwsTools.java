@@ -20,10 +20,7 @@ public class AwsTools {
 
         ByteBuffer cipherBuffer = ByteBuffer.wrap(dataBytes);
         DecryptRequest req = new DecryptRequest().withCiphertextBlob(cipherBuffer).withKeyId(kmsKeyId);
-        log.info("kmsKeyId {}", kmsKeyId);
-        log.info("data {}", data);
         DecryptResult resp = kmsClient.decrypt(req);
-
         return new String(resp.getPlaintext().array(), StandardCharsets.UTF_8);
     }
 }
