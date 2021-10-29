@@ -36,6 +36,25 @@ oidcSecurityFilter.authorizers = +id
 
 Only users mentioned on the *elements* property - *id1, id2 and id3*, for instance - will be able to access the system.
 
+### Using bio.ferlab.pac4j.RoleAuthorizer :
+
+In order to restrict the Zeppelin access only to user with certain roles, use this authorizer on your *shiro.ini* file as follows:
+
+```
+roleAuthorizer = bio.ferlab.pac4j.RoleAuthorizer
+roleAuthorizer.elements = role1,role2,role3
+
+config = org.pac4j.core.config.Config
+config.authorizers = id:roleAuthorizer
+
+oidcSecurityFilter = io.buji.pac4j.filter.SecurityFilter
+oidcSecurityFilter.config = $config
+oidcSecurityFilter.clients = oidcClient
+oidcSecurityFilter.authorizers = +id
+```
+
+Only users with roles - *role1, role2 and role3*, for instance - will be able to access the system.
+
 ### Using bio.ferlab.pac4j.ForceDefaultURLCallbackLogic :
 
 In order to provide Keycloak a callback URL which will override the Zeppelin predefinition, after a successful login, modify your *shiro.ini* file as follows:
