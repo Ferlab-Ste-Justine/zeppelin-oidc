@@ -45,7 +45,7 @@ roleAuthorizer = bio.ferlab.pac4j.RoleAuthorizer
 roleAuthorizer.elements = role1,role2,role3
 
 config = org.pac4j.core.config.Config
-config.authorizers = id:roleAuthorizer
+config.authorizers = id:$roleAuthorizer
 
 oidcSecurityFilter = io.buji.pac4j.filter.SecurityFilter
 oidcSecurityFilter.config = $config
